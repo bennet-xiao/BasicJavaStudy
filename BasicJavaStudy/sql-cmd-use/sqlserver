@@ -1,0 +1,13 @@
+1、sql server配置管理器启动服务，cmd连接sql server osql ?/帮助文档
+ osql -U sa -P 123
+2、查看所有数据库
+  1>select name from master.dbo.sysdatabases
+  2>go
+  每次要go才表示这个过程执行，查看该数据库的所有表
+  1>use test
+  2>go
+  1>select name from sysobjects where xtype='U'
+  2>go
+  查看表中所有字段：
+  1>select c.name,c.length from syscolumns c inner join sysobjects t on c.id = t.id and t.name='user'
+  2>go
