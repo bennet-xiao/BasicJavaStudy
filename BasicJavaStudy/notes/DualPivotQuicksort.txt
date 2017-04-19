@@ -1,0 +1,55 @@
+此类为final修饰的常量类，不可继承  里边实现了各种排序算法 本文件主要记录里边的排序方法的思想和读后感
+1、 传统的插入排序算法：Traditional (without sentinel) insertion sort
+     for (int i = left, j = i; i < right; j = ++i) {
+                    int ai = a[i + 1];
+                    while (ai < a[j]) {
+                        a[j + 1] = a[j];
+                        if (j-- == left) {
+                            break;
+                        }
+                    }
+                    a[j + 1] = ai;
+                }
+     此算法实现从小到大排序，基本思想：依次比较相邻两个数的大小，如果右边的数小于左边的数，则将依次比较并将左边的数右移，最后将右边的这个数填到空出来的位
+ 2、 双插入排序算法（从小到大升序排列，首先找到第一个开始的逆序下标，从这里开始，以两位数为一组进行插入排序，最后将最后一个数插入合适的位置，乐观的情况下时间复杂度优于传统插入排序法）
+            a、找出最长的升序队列
+                do {
+                    if (left >= right) {
+                        return;
+                    }
+                } while (a[++left] >= a[left - 1]);
+
+                /*
+                 * Every element from adjoining part plays the role
+                 * of sentinel, therefore this allows us to avoid the
+                 * left range check on each iteration. Moreover, we use
+                 * the more optimized algorithm, so called pair insertion
+                 * sort, which is faster (in the context of Quicksort)
+                 * than traditional implementation of insertion sort.
+                 */
+                 //left为第一个右边的数大于左边的数的下标号
+                for (int k = left; ++left <= right; k = ++left) {
+                    int a1 = a[k], a2 = a[left];
+                    //保证a2插入在a1左边时是升序排列的
+                    if (a1 < a2) {
+                        a2 = a1; a1 = a[left];
+                    }
+                    //a1与比左边的数小时，左边的数向后移2位
+                    while (a1 < a[--k]) {
+                        a[k + 2] = a[k];
+                    }
+                    a[++k + 1] = a1;
+                   //从a1的左边的数的前一位开始比较，a2与比左边的小时，左边的数向后移1位
+                    while (a2 < a[--k]) {
+                        a[k + 1] = a[k];
+                    }
+                    a[k + 1] = a2;
+                }
+                //为最后一位数找到合适的位置并插入
+                int last = a[right];
+
+                while (last < a[--right]) {
+                    a[right + 1] = a[right];
+                }
+                a[right + 1] = last;
+3、outer:关键字用于跳出外面的循环，防止死循环
