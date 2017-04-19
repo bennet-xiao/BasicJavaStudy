@@ -1,0 +1,9 @@
+1、连接mysql 
+  mysql -u root -p 123
+2、查看所有数据库(所有指令以分号;结束)
+   show databases;
+3、查看某个数据库的所有表
+   use test;
+   show tables;
+4、查看某个表的所有字段
+  SHOW COLUMNS FROM user或者DESCRIBE user
